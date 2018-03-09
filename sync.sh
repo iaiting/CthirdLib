@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 
-################################################################################
+#******************************************************************************#
 OpenSSL_SRCDIR="../OpenSSL"
 OpenSSL32_OBJDIR="./OpenSSL32"
-
 
 #******************************************************************************#
 GmSSL_SRCDIR="../GmSSL"
 GmSSL32_OBJDIR="./GmSSL32"
 
-################################################################################
+#******************************************************************************#
+TaSSL_SRCDIR="../TaSSL"
+TaSSL32_OBJDIR="./TaSSL32"
+
+#******************************************************************************#
 function lib_sync() {
     if [ $# -ne 2 ]; then
        return 1
@@ -22,15 +25,24 @@ function lib_sync() {
 	mkdir ${objdir}
     fi
 
-    cp ${srcdir}/libcrypto.lib ${objdir}/
-    cp ${srcdir}/libssl.lib ${objdir}/
+    cp ${srcdir}/libcrypto*.lib ${objdir}/  1>/dev/null 2>&1
+    if [ $? -ne 0 ]; then
+	cp ${srcdir}/libeay*.lib ${objdir}/
+    fi
 
-
-    cp ${srcdir}/libcrypto*.dll ${objdir}/
-    cp ${srcdir}/libssl*.dll ${objdir}/
-
-    cp ${srcdir}/libcrypto*.pdb ${objdir}/
-    cp ${srcdir}/libssl*.pdb ${objdir}/
+    cp ${srcdir}/libcrypto*.dll ${objdir}/  1>/dev/null 2>&1
+    if [ $? -ne 0 ]; then
+	cp ${srcdir}/libeay*.dll ${objdir}/
+    fi
+    
+    cp ${srcdir}/libcrypto*.pdb ${objdir}/  1>/dev/null 2>&1
+    if [ $? -ne 0 ]; then
+	cp ${srcdir}/libeay*.pdb ${objdir}/
+    fi
+    
+    cp ${srcdir}/*ssl*.lib ${objdir}/
+    cp ${srcdir}/*ssl*.dll ${objdir}/
+    cp ${srcdir}/*ssl*.pdb ${objdir}/
 }
 
 
@@ -47,8 +59,7 @@ function headfile_sync() {
 	mkdir ${objdir}/include
     fi
     
-    
-    cp -rf ${srcdir}/include/openssl ${objdir}/include/
+    cp -rf ${srcdir}/openssl ${objdir}/include/
 }
 
 
@@ -63,14 +74,13 @@ function sync() {
 	return 1
     fi
 
-    headfile_sync ${srcdir} ${objdir}
+    headfile_sync ${srcdir}/include ${objdir}
     if [ $? -ne 0 ]; then
 	return 1
     fi
 
     return 0
 }
-
 
 
 ################################################################################
@@ -85,14 +95,11 @@ function OpenSSL32_sync() {
     echo "Syncing OpenSSL32 finish ."
     
     return 0
-    
 }
 
 
 ################################################################################
 function GmSSL32_sync() {
-
-    
     echo "Start syncing GmSSL32: ${GmSSL_SRCDIR} -> ${GmSSL32_OBJDIR} ..."
 
     sync ${GmSSL_SRCDIR} ${GmSSL32_OBJDIR}
@@ -101,6 +108,31 @@ function GmSSL32_sync() {
     fi
     
     echo "Syncing GmSSL32 finish ."
+    
+    return 0
+}
+
+
+################################################################################
+function TaSSL32_sync() {
+    echo "Start syncing TaSSL32: ${TaSSL_SRCDIR} -> ${TaSSL32_OBJDIR} ..."
+
+    lib_sync ${TaSSL_SRCDIR}/out32dll ${TaSSL32_OBJDIR}
+    if [ $? -ne 0 ]; then
+	return 1
+    fi
+
+    headfile_sync ${TaSSL_SRCDIR}/inc32 ${TaSSL32_OBJDIR}
+    if [ $? -ne 0 ]; then
+	return 1
+    fi
+
+
+    if [ $? -ne 0 ]; then
+	return 1
+    fi
+    
+    echo "Syncing TaSSL32 finish ."
     
     return 0
 }
@@ -117,10 +149,14 @@ function main() {
     if [ $? -ne 0 ]; then
 	return 1
     fi
+
+    TaSSL32_sync
+    if [ $? -ne 0 ]; then
+	return 1
+    fi
 }
 
 
 ################################################################################
 main "$@"
-    
 
