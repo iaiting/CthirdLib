@@ -60,6 +60,9 @@ function headfile_sync() {
     fi
     
     cp -rf ${srcdir}/openssl ${objdir}/include/
+    if [ -e ${srcdir}/internal ]; then
+    	cp -rf ${srcdir}/internal ${objdir}/include/
+    fi
 }
 
 
