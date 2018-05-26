@@ -2,15 +2,15 @@
 
 ################################################################################
 OpenSSL_SRCDIR="../OpenSSL"
-OpenSSL32_OBJDIR="./win_x86/OpenSSL32"
+OpenSSL32_OBJDIR="./win/OpenSSL32"
 
 ################################################################################
 GmSSL_SRCDIR="../GmSSL"
-GmSSL32_OBJDIR="./win_x86/GmSSL32"
+GmSSL32_OBJDIR="./win/GmSSL32"
 
 ################################################################################
 TaSSL_SRCDIR="../TaSSL"
-TaSSL32_OBJDIR="./win_x86/TaSSL32"
+TaSSL32_OBJDIR="./win/TaSSL32"
 
 ################################################################################
 function lib_sync() {
