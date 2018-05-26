@@ -65,9 +65,6 @@ extern "C" {
 #ifndef OPENSSL_NO_GMIENG
 # define OPENSSL_NO_GMIENG
 #endif
-#ifndef OPENSSL_NO_GMTLS
-# define OPENSSL_NO_GMTLS
-#endif
 #ifndef OPENSSL_NO_HEARTBEATS
 # define OPENSSL_NO_HEARTBEATS
 #endif

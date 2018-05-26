@@ -695,12 +695,18 @@ typedef struct st_dynamic_fns {
  * IMPLEMENT_DYNAMIC_CHECK_FN().
  */
 typedef unsigned long (*dynamic_v_check_fn) (unsigned long ossl_version);
+
+/*******************************************************************************
+ * nm1C1.tmp : error LNK2001: 无法解析的外部符号 v_check
+ * modify by iaiting at 2018/05/26
+ ******************************************************************************/
+ /*
 # define IMPLEMENT_DYNAMIC_CHECK_FN() \
         OPENSSL_EXPORT unsigned long v_check(unsigned long v); \
         OPENSSL_EXPORT unsigned long v_check(unsigned long v) { \
                 if (v >= OSSL_DYNAMIC_OLDEST) return OSSL_DYNAMIC_VERSION; \
                 return 0; }
-
+*/
 /*
  * This function is passed the ENGINE structure to initialise with its own
  * function and command settings. It should not adjust the structural or
@@ -721,6 +727,12 @@ typedef unsigned long (*dynamic_v_check_fn) (unsigned long ossl_version);
  */
 typedef int (*dynamic_bind_engine) (ENGINE *e, const char *id,
                                     const dynamic_fns *fns);
+
+/*******************************************************************************
+ * nm1C1.tmp : error LNK2001: 无法解析的外部符号 bind_engine
+ * modify by iaiting at 2018/05/26
+ ******************************************************************************/                                    
+/*
 # define IMPLEMENT_DYNAMIC_BIND_FN(fn) \
         OPENSSL_EXPORT \
         int bind_engine(ENGINE *e, const char *id, const dynamic_fns *fns); \
@@ -733,6 +745,8 @@ typedef int (*dynamic_bind_engine) (ENGINE *e, const char *id,
         skip_cbs: \
             if (!fn(e, id)) return 0; \
             return 1; }
+
+*/
 
 /*
  * If the loading application (or library) and the loaded ENGINE library

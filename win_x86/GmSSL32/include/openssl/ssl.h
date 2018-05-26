@@ -1714,8 +1714,11 @@ __owur const SSL_METHOD *DTLS_server_method(void); /* DTLS 1.0 and 1.2 */
 __owur const SSL_METHOD *DTLS_client_method(void); /* DTLS 1.0 and 1.2 */
 
 #ifndef OPENSSL_NO_GMTLS
+/*
 __owur const SSL_METHOD *GMTLS_method(void); /* GMTLSv1.1 */
+/*
 __owur const SSL_METHOD *GMTLS_server_method(void); /* GMTLSv1.1 */
+/*
 __owur const SSL_METHOD *GMTLS_client_method(void); /* GMTLSv1.1 */
 #endif
 
