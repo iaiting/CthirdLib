@@ -129,10 +129,6 @@ function TaSSL32_sync() {
 	    return 1
     fi
 
-    if [ $? -ne 0 ]; then
-	    return 1
-    fi
-    
     echo "Syncing TaSSL32 finish ."
     
     return 0
